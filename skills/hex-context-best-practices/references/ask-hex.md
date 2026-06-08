@@ -48,6 +48,37 @@ So instead of *you* hunting for gaps, Hex names them and your agent fixes them. 
 are Admin/Manager, Team/Enterprise.)* Tip: `hex install agent-skill --claude` adds Hex's own bundled
 Claude skill for driving the CLI.
 
+### Let the agent drive the loop
+
+The suggestion triage loop above is something your coding agent can run for you — not just assist
+with. Two patterns depending on what tool you're in:
+
+**Interactive triage session (Claude Code — `/loop`):**
+Use `/loop` to keep re-running the suggestion triage in a single session. The agent pulls new
+suggestions, drafts fixes, waits for your review, applies them, and repeats. Good for a focused
+context maintenance pass where you want to stay in the loop.
+
+```
+/loop check for new hex suggestions, draft fixes for any open ones, and apply them after my approval
+```
+
+**Recurring automated maintenance (Claude Code — `/schedule`):**
+Use `/schedule` to set up a remote agent that runs on a cron schedule — no session required. It
+wakes up, runs `hex suggestion list`, drafts fixes as a PR or applies them directly, and goes back
+to sleep. Good for teams that want context maintenance to happen in the background.
+
+```
+/schedule every Monday morning, run hex suggestion list, draft fixes for open suggestions, and open a PR
+```
+
+**Codex — Thread Automations:**
+Codex doesn't have `/loop` or `/schedule` yet, but has **Thread Automations** — heartbeat-style
+recurring wake-ups attached to the current thread. Set a minute-based interval for an active triage
+loop, or a daily/weekly schedule for maintenance check-ins. Find it in the Codex thread menu.
+
+Note: `/loop` and `/schedule` are Claude Code-specific. Thread Automations are Codex-specific. Both
+do the same job — keep the suggestion loop running without you manually re-triggering it.
+
 ---
 
 **How to choose what to suggest:** lead with Tier 1 (everyone has it). Add Tier 2 only if they mention
