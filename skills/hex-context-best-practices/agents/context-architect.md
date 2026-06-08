@@ -28,6 +28,9 @@ Work the assets in leverage order. You rarely need all of them for one use case.
 Most warehouses are mostly staging/test/raw. Set the "approved menu":
 - **Exclude from AI** the bad tables/schemas — a hard guardrail, not a hint.
 - **Endorse** (Approved/Trusted) the production tables you'd stake an answer on.
+- **Enable Endorsed Mode** (Settings → AI & agents) — restricts Explorer users to endorsed assets
+  only in Threads. On by default; keep it on for self-serve rollouts. Editors can still toggle
+  between endorsed and all assets; Explorers cannot when this is enforced.
 
 ### Domain endorsement pattern
 Group endorsements by domain (revenue, product, marketing, etc.) and write descriptions on every

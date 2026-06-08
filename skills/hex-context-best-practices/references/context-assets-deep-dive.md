@@ -21,7 +21,13 @@ the questions it serves. The endorsement narrows the pool; the description does 
 1. Identify the domain (e.g. revenue, product, marketing).
 2. Endorse every table, project, and semantic model that belongs to it.
 3. Write a description on each endorsed asset using the keywords users actually type.
-4. That's the whole pattern.
+4. Enable **Endorsed Mode** (Settings → AI & agents) to enforce the guardrail for Explorer users.
+5. That's the whole pattern.
+
+**Endorsed Mode — what it does:**
+When enabled (the default), Explorer users are restricted to endorsed assets only in Threads — they
+have no toggle to switch to "all assets." Editors retain the toggle. Keep it on for self-serve
+rollouts; disable only if you intentionally want Explorers to roam the full warehouse.
 
 **Good description (revenue table):**
 ```

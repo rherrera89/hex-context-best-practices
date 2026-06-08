@@ -58,6 +58,9 @@ category focused on its job is **context engineering**. The categories sit on a 
 1. **Endorsed & excluded statuses** — *your warehouse guardrails.* Mark schemas/tables/semantic
    models as Approved/Trusted, or "Exclude from AI" for staging, test, and deprecated data. This is
    the **fastest, highest-leverage** action — it defines the "approved menu" the agent can pull from.
+   Pair with **Endorsed Mode** (Settings → AI & agents): when enabled (the default), Explorer users
+   are restricted to endorsed assets only in Threads — no toggle, no escape hatch. Recommended for
+   self-serve rollouts where you want to guarantee business users only touch vetted data.
 2. **Warehouse descriptions** — *the foundational context.* Table and column descriptions. Answers
    "what does this column contain." Fundamental hygiene.
 3. **Workspace context & guides** — *teaching the agent your business.* **Workspace context** is one
