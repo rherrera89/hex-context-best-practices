@@ -4,10 +4,51 @@ Patterns and short examples. Read when drafting and you need more than the archi
 the full, current best-practice examples, fetch the workspace-context doc in `references/hex-docs.md`.
 
 ## Contents
+- [Domain endorsement pattern](#domain-endorsement-pattern)
 - [Workspace context vs. guides](#workspace-context-vs-guides)
 - [Workspace context structure](#workspace-context-structure)
 - [Workspace guide structure](#workspace-guide-structure)
 - [Semantic models — anatomy](#semantic-models--anatomy)
+
+---
+
+## Domain endorsement pattern
+
+Endorse assets grouped by domain. Write descriptions on each endorsed asset that name the domain and
+the questions it serves. The endorsement narrows the pool; the description does the routing.
+
+**Step-by-step:**
+1. Identify the domain (e.g. revenue, product, marketing).
+2. Endorse every table, project, and semantic model that belongs to it.
+3. Write a description on each endorsed asset using the keywords users actually type.
+4. That's the whole pattern.
+
+**Good description (revenue table):**
+```
+Source of record for subscription revenue. Use for ARR, MRR, churn, and renewal questions.
+Includes all active and churned subscriptions. Join to dim_customers on customer_id.
+Exclude rows where status = 'draft'.
+```
+
+**Bad description (too generic — won't route correctly):**
+```
+Contains subscription data.
+```
+
+**What NOT to do — routing table in workspace context:**
+```markdown
+<!-- Don't add this to workspace context -->
+| Domain   | Tables                        |
+|----------|-------------------------------|
+| Revenue  | fct_revenue, dim_customers    |
+| Product  | fct_events, dim_features      |
+```
+This is redundant if descriptions are good, and becomes stale as the warehouse evolves. If you feel
+the urge to add a routing table, it means descriptions need work — fix those instead.
+
+**One exception:** if two endorsed assets are genuinely ambiguous even with strong descriptions
+(e.g., two revenue tables that serve different time granularities), add a one-line disambiguation
+rule to the relevant workspace guide — not the workspace context.
 
 ---
 

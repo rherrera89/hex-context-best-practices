@@ -29,7 +29,24 @@ Most warehouses are mostly staging/test/raw. Set the "approved menu":
 - **Exclude from AI** the bad tables/schemas — a hard guardrail, not a hint.
 - **Endorse** (Approved/Trusted) the production tables you'd stake an answer on.
 
-Deliver: an approve list + an exclude list, tied to the use case.
+### Domain endorsement pattern
+Group endorsements by domain (revenue, product, marketing, etc.) and write descriptions on every
+endorsed asset that name the domain and the questions it serves. The descriptions are the routing
+layer — the agent narrows to endorsed assets first, then reads descriptions to pick the right one.
+
+**The workflow:**
+1. Endorse all assets for a domain (tables, projects, semantic models).
+2. On each endorsed asset, write a description that includes domain keywords users actually type —
+   e.g. *"Use for revenue, ARR, MRR, and churn questions. Source of record for subscription value."*
+3. Done. No further mapping needed.
+
+**Anti-pattern — don't duplicate in workspace context.** Do not add a domain→table routing table to
+the workspace context file. If your descriptions are good, the agent already knows which endorsed
+asset to pick. A routing table in workspace context is a sign that descriptions are weak — fix the
+descriptions instead.
+
+Deliver: an endorse list + an exclude list grouped by domain, plus description drafts for each
+endorsed asset (see Section 2 for description quality bar).
 
 ---
 
