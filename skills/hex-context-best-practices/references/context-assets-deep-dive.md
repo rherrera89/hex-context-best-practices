@@ -1,0 +1,122 @@
+# Context Assets — Deep Dive
+
+Patterns and short examples. Read when drafting and you need more than the architect's summaries. For
+the full, current best-practice examples, fetch the workspace-context doc in `references/hex-docs.md`.
+
+## Contents
+- [Workspace context vs. guides](#workspace-context-vs-guides)
+- [Workspace context structure](#workspace-context-structure)
+- [Workspace guide structure](#workspace-guide-structure)
+- [Semantic models — anatomy](#semantic-models--anatomy)
+
+---
+
+## Workspace context vs. guides
+
+| | Workspace context | Workspace guide |
+| --- | --- | --- |
+| **What** | One file sent with **every** prompt | A **library**; retrieved only when relevant |
+| **Scope** | Global truths for all questions | One domain / question type |
+| **Length** | ≤ ~300 lines / 800 words | ~150 lines / 350 words each |
+| **Retrieval** | Always loaded | By `name` + `description` frontmatter |
+
+**Decision test:** applies to every question → context. Domain-specific → guide.
+
+**Both:** use enforceable "Always/Never" language; describe *when/how* to use data, not *what* it is;
+for each anti-pattern name it, say why, give the correct behavior.
+
+---
+
+## Workspace context structure
+
+Four sections that perform well. Keep it tight.
+
+```markdown
+# Business Context
+What the company does, what this workspace supports, the main subject areas, and the decisions it
+informs. Be specific — specificity helps the agent read ambiguous questions.
+
+# Data Conventions & Structure
+Which schemas are production-grade; what naming signals (dim_/fct_/agg_, raw_/dev_); which to avoid;
+column conventions. Describe patterns, not a table directory.
+
+# Recurring Mistakes
+Named anti-patterns with the reason: e.g. revenue summed from line-item tables over-counts; refunds
+not excluded; session joins fan out.
+
+# Analysis Preferences
+Default filters (exclude test/internal), preferred chart types, validation steps before presenting.
+Write filters as real SQL snippets, not prose.
+```
+
+**Keep OUT of context** (each has a home): full warehouse directory → descriptions; golden tables →
+endorsements; tables to ban → exclude-from-AI; semantic logic → the model; metric formulas → guides.
+
+---
+
+## Workspace guide structure
+
+Each guide opens with retrieval frontmatter — write the description with the terms users actually
+type, or the agent won't fetch it:
+
+```markdown
+---
+name: Revenue & Order Metrics
+description: How revenue, order volume, GMV, and AOV are calculated. Use when questions mention
+  revenue, sales, orders, GMV, or AOV.
+---
+```
+
+Then the working sections:
+- **Canonical Metrics** — each metric's formula, required source table, and the trap to avoid
+  ("never compute revenue from the line-item table — it over-counts").
+- **Join Patterns** — required keys per entity pair; what *not* to join on (to prevent fan-out).
+- **Schema Preferences** — the source-of-record table(s); which schema for outputs; tables to avoid.
+- **Risk Areas** — confirmed anti-patterns, each with why + correct behavior.
+- **Example Questions** — 2–3 in the user's own words, to aid retrieval.
+
+**Tip:** guides can be version-controlled in GitHub and synced to Hex via a GitHub Action — useful
+for teams already managing context as code (see the guides doc in `references/hex-docs.md`).
+
+---
+
+## Semantic models — anatomy
+
+In Hex, semantic models are YAML, grouped into projects per domain. Each model has a base table plus
+**measures**, **dimensions**, and **relations**.
+
+```yaml
+id: orders
+type: model
+base_sql_table: public.orders
+
+dimensions:
+  - id: order_date
+    type: time
+    time_granularity: day
+  - id: customer_id
+    type: string
+
+measures:
+  - id: total_revenue
+    name: "Total Revenue"
+    func: sum
+    sql: order_total
+
+relations:
+  - id: customers
+    type: many_to_one
+    join_sql: customer_id = ${customers}.id
+```
+
+- **Measures** — aggregate calculations; can embed filter logic, e.g.
+  `COUNT(DISTINCT CASE WHEN ${account_status}='active' THEN ${dim_customers.customer_id} END)`.
+- **Dimensions** — column definitions (the Modeling Agent can pull in existing warehouse
+  descriptions); keep them business-focused and universal. You can flag intent, e.g. "primary time
+  dimension for sales metrics."
+- **Relations** — join conditions so the agent builds performant SQL, not accidental many-to-many.
+  Define them on **both** sides of the join.
+
+**Build in Hex:** Data → Semantic models → New model, then prompt the Modeling Agent (e.g. *"Using the
+@salesmetrics project, create a semantic model called 'Sales Model'"*). Fetch the models doc in
+`references/hex-docs.md` for current steps.
