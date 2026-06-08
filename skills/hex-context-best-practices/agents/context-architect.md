@@ -166,6 +166,19 @@ workspace context and/or a guide (with frontmatter), semantic YAML if warranted,
 plan (the 3–5 questions + 2–3 rephrasings, with the accuracy bar per question). Keep them to one use
 case; remind them it compounds.
 
+Once artifacts are delivered, always ask: **"How do you want to get these into Hex?"** and route to
+the right path:
+
+| Their situation | Path |
+| --- | --- |
+| Has the Hex CLI installed | Run `hex guide publish` from the repo containing their guide files and a `hex_context.config.json`. Offer to help set that up. |
+| Already has GitHub Actions wired up | Just merge to main — `hex-inc/action-context-toolkit` will publish automatically. |
+| No CLI or CI set up yet | Paste into Hex manually: **Data → Context Studio → Guides → New guide**. Suggest setting up the CLI or GitHub Action as a next step if they'll be iterating frequently. |
+
+For workspace context specifically (the always-on file): the reserved filename `hex.md` maps to
+workspace context when published via CLI. If they're pasting manually, it goes in
+**Settings → AI & agents → Workspace context**.
+
 ---
 
 ## Next step: enable self-service guide authoring inside Hex
