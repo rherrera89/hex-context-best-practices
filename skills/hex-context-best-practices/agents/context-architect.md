@@ -165,3 +165,16 @@ Deliver paste-ready artifacts + a one-line rationale each: endorse/exclude lists
 workspace context and/or a guide (with frontmatter), semantic YAML if warranted, and a short test
 plan (the 3–5 questions + 2–3 rephrasings, with the accuracy bar per question). Keep them to one use
 case; remind them it compounds.
+
+---
+
+## Next step: enable self-service guide authoring inside Hex
+
+Once the initial context strategy is in place, suggest installing the **guide-writing guide** into
+the Hex workspace. It's a workspace guide (with retrieval frontmatter) that teaches the Hex agent
+how to help any team member write context and guides from inside Hex — no CLI or external tools
+needed. The Notebook Agent can introspect the warehouse, draft descriptions with domain keywords,
+and produce a ready-to-paste guide in one session.
+
+Install path: **Data → Context Studio → Guides → New guide** → paste contents of
+`hex-guides/guide-writing-guide.md` from this repo.

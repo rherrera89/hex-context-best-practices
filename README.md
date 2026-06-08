@@ -13,6 +13,8 @@ hex-context-best-practices/
 ├── .claude-plugin/
 │   ├── marketplace.json                  # Claude Code marketplace catalog
 │   └── plugin.json                       # plugin manifest
+├── hex-guides/
+│   └── guide-writing-guide.md            # install into Hex — teaches the agent to help write guides
 ├── skills/
 │   └── hex-context-best-practices/
 │       ├── SKILL.md                      # orchestrator — start here
@@ -30,6 +32,22 @@ hex-context-best-practices/
 ```
 
 ## Install
+
+### Use inside Hex (no CLI needed)
+
+If you're working in Hex and want the agent to help you write workspace context and guides without
+leaving the product, install the **guide-writing guide** into your workspace once:
+
+1. Copy the contents of [`hex-guides/guide-writing-guide.md`](hex-guides/guide-writing-guide.md).
+2. In Hex: **Data → Context Studio → Guides → New guide**. Paste and save.
+
+That's it. From then on, whenever anyone asks the Hex agent *"help me write a guide"* or *"how do
+I add context for revenue"*, it retrieves this guide and walks them through it — all from inside
+Hex, using the Notebook Agent against your actual warehouse.
+
+This is the recommended next step after you've set up your initial context strategy.
+
+---
 
 ### Claude Code (plugin marketplace)
 ```
